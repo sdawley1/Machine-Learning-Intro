@@ -1,5 +1,14 @@
+%matplotlib inline
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, VotingRegressor
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.layers.experimental import preprocessing
 
 # Make NumPy printouts easier to read
 np.set_printoptions(precision=3, suppress=True)
@@ -23,8 +32,6 @@ raw_dataset = pd.read_csv(url, names=column_names, na_values='?',
 # Converting the elements of the 'Origin' column to something that makes sense,
 # that is, '1' changes to 'USA', etc., so that we can see the place of origin
 raw_dataset['Origin'].map({1: 'USA', 2: 'Europe', 3: 'Japan'})
-
-from sklearn.preprocessing import StandardScaler
 
 # `cleanData` is all of the data contained in the infile that is not a NaN
 # We're effectively 'cleaning' the data
@@ -52,11 +59,6 @@ y_train = cleanData.MPG[:371].to_numpy()
 # cleanData is a pd dataframe and so we can access MPG data directly as a method
 x_test = cleanDataC.drop(cleanDataC.columns[[0]], axis=1)[371:].to_numpy()
 y_test = cleanData.MPG[371:].to_numpy()
-
-%matplotlib inline
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression, Ridge
-
 
 # Plotting the figure and making it look nice
 plt.figure()
@@ -90,8 +92,6 @@ plt.plot(lims, lims, c='k', lw=2, label='No Losses')
 
 plt.legend()
 
-from sklearn.ensemble import RandomForestRegressor
-
 # Plotting the figure and making it look nice
 plt.figure()
 plt.title('Estimate Made by Random Forest')
@@ -118,8 +118,6 @@ plt.scatter(y_train, rfrTrain, c='k', alpha=0.05, label='Training Forest')
 plt.plot(lims, lims, c='k', lw=2, label='No Losses')
 
 plt.legend()
-
-from sklearn.ensemble import AdaBoostRegressor
 
 # Plotting the figure and making it look nice
 plt.figure()
@@ -175,8 +173,6 @@ plt.plot(lims, lims, c='k', lw=2, label='No Losses')
 
 plt.legend()
 
-from sklearn.ensemble import VotingRegressor
-
 # Plotting the figure and making it look nice
 plt.figure()
 plt.title('Estimate Made by Voting Regression')
@@ -200,11 +196,6 @@ plt.scatter(y_train, VRtrain, c='k', alpha=0.05, label='Training Voting')
 plt.plot(lims, lims, c='k', lw=2, label='No Losses')
 
 plt.legend()
-
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.layers.experimental import preprocessing
 
 # Make NumPy printouts easier to read
 np.set_printoptions(precision=3, suppress=True)
